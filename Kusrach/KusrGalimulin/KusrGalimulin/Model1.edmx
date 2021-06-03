@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище autoservice_kpModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="Название услуги" Type="nvarchar" MaxLength="50" />
+          <Property Name="Стоимость" Type="money" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="фото" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="LastName" Type="nvarchar" MaxLength="30" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="30" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="30" />
+          <Property Name="Male" Type="nvarchar" MaxLength="10" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Birthday" Type="date" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Role" Type="int" />
+          <Property Name="Salary" Type="money" />
+          <Property Name="Rate" Type="int" />
+          <Property Name="Achievements" Type="nvarchar" MaxLength="50" />
+          <Property Name="Education" Type="nvarchar" MaxLength="50" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="img" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="USerService">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="Сотрудники" Type="int" />
+          <Property Name="Список услуг сотрудников" Type="int" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Cписок сотрудников с ролями_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USerService_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="0..1" />
+          <End Role="USerService" Type="Self.USerService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="USerService">
+              <PropertyRef Name="Список услуг сотрудников" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USerService_USerService">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="USerService" Type="Self.USerService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="USerService">
+              <PropertyRef Name="Сотрудники" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище autoservice_kpModelContainer">
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USerService" EntityType="Self.USerService" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Cписок сотрудников с ролями_Role" Association="Self.FK_Cписок сотрудников с ролями_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USerService_Service" Association="Self.FK_USerService_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="USerService" EntitySet="USerService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USerService_USerService" Association="Self.FK_USerService_USerService">
+            <End Role="User" EntitySet="User" />
+            <End Role="USerService" EntitySet="USerService" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="autoservice_kpModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Cписок_сотрудников_с_ролями_Role" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="Название_услуги" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Стоимость" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="USerService" Relationship="Self.FK_USerService_Service" FromRole="Service" ToRole="USerService" />
+          <Property Name="фото" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="MiddleName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Male" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Birthday" Type="DateTime" Precision="0" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Role" Type="Int32" />
+          <Property Name="Salary" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Rate" Type="Int32" />
+          <Property Name="Achievements" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Education" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="img" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Role1" Relationship="Self.FK_Cписок_сотрудников_с_ролями_Role" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="USerService" Relationship="autoservice_kpModel.FK_USerService_USerService1" FromRole="User" ToRole="USerService" />
+        </EntityType>
+        <EntityType Name="USerService">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="Сотрудники" Type="Int32" />
+          <Property Name="Список_услуг_сотрудников" Type="Int32" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Service" Relationship="Self.FK_USerService_Service" FromRole="USerService" ToRole="Service" />
+          <NavigationProperty Name="USerService1" Relationship="Self.FK_USerService_USerService" FromRole="USerService" ToRole="USerService1" />
+          <NavigationProperty Name="USerService2" Relationship="Self.FK_USerService_USerService" FromRole="USerService1" ToRole="USerService" />
+          <NavigationProperty Name="User" Relationship="autoservice_kpModel.FK_USerService_USerService1" FromRole="USerService" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Cписок_сотрудников_с_ролями_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USerService_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="0..1" />
+          <End Role="USerService" Type="Self.USerService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="USerService">
+              <PropertyRef Name="Список_услуг_сотрудников" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USerService_USerService">
+          <End Role="USerService" Type="Self.USerService" Multiplicity="1" />
+          <End Role="USerService1" Type="Self.USerService" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="USerService">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="USerService1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="autoservice_kpEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Role" EntityType="Self.Role" />
+          <EntitySet Name="Service" EntityType="Self.Service" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="USerService" EntityType="Self.USerService" />
+          <AssociationSet Name="FK_Cписок_сотрудников_с_ролями_Role" Association="Self.FK_Cписок_сотрудников_с_ролями_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USerService_Service" Association="Self.FK_USerService_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="USerService" EntitySet="USerService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USerService_USerService" Association="Self.FK_USerService_USerService">
+            <End Role="USerService" EntitySet="USerService" />
+            <End Role="USerService1" EntitySet="USerService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USerService_USerService1" Association="autoservice_kpModel.FK_USerService_USerService1">
+            <End Role="User" EntitySet="User" />
+            <End Role="USerService" EntitySet="USerService" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_USerService_USerService1">
+          <End Type="autoservice_kpModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="autoservice_kpModel.USerService" Role="USerService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="USerService">
+              <PropertyRef Name="Сотрудники" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище autoservice_kpModelContainer" CdmEntityContainer="autoservice_kpEntities">
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="autoservice_kpModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Service">
+            <EntityTypeMapping TypeName="autoservice_kpModel.Service">
+              <MappingFragment StoreEntitySet="Service">
+                <ScalarProperty Name="фото" ColumnName="фото" />
+                <ScalarProperty Name="Название_услуги" ColumnName="Название услуги" />
+                <ScalarProperty Name="Стоимость" ColumnName="Стоимость" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="autoservice_kpModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="Male" ColumnName="Male" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="Achievements" ColumnName="Achievements" />
+                <ScalarProperty Name="Education" ColumnName="Education" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="img" ColumnName="img" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USerService">
+            <EntityTypeMapping TypeName="autoservice_kpModel.USerService">
+              <MappingFragment StoreEntitySet="USerService">
+                <ScalarProperty Name="Сотрудники" ColumnName="Сотрудники" />
+                <ScalarProperty Name="Список_услуг_сотрудников" ColumnName="Список услуг сотрудников" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

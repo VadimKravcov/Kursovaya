@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="autoservice_kpModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Cписок_сотрудников_с_ролями_Role" FromRole="Role" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Service">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="Название_услуги" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Стоимость" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="USerService" Relationship="Self.FK_USerService_Service" FromRole="Service" ToRole="USerService" />
+    <Property Name="фото" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="MiddleName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Male" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Birthday" Type="DateTime" Precision="0" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Role" Type="Int32" />
+    <Property Name="Salary" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Rate" Type="Int32" />
+    <Property Name="Achievements" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Education" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="img" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Role1" Relationship="Self.FK_Cписок_сотрудников_с_ролями_Role" FromRole="User" ToRole="Role" />
+    <NavigationProperty Name="USerService" Relationship="autoservice_kpModel.FK_USerService_USerService1" FromRole="User" ToRole="USerService" />
+  </EntityType>
+  <EntityType Name="USerService">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="Сотрудники" Type="Int32" />
+    <Property Name="Список_услуг_сотрудников" Type="Int32" />
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Service" Relationship="Self.FK_USerService_Service" FromRole="USerService" ToRole="Service" />
+    <NavigationProperty Name="USerService1" Relationship="Self.FK_USerService_USerService" FromRole="USerService" ToRole="USerService1" />
+    <NavigationProperty Name="USerService2" Relationship="Self.FK_USerService_USerService" FromRole="USerService1" ToRole="USerService" />
+    <NavigationProperty Name="User" Relationship="autoservice_kpModel.FK_USerService_USerService1" FromRole="USerService" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_Cписок_сотрудников_с_ролями_Role">
+    <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_USerService_Service">
+    <End Role="Service" Type="Self.Service" Multiplicity="0..1" />
+    <End Role="USerService" Type="Self.USerService" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Service">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="USerService">
+        <PropertyRef Name="Список_услуг_сотрудников" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_USerService_USerService">
+    <End Role="USerService" Type="Self.USerService" Multiplicity="1" />
+    <End Role="USerService1" Type="Self.USerService" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="USerService">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="USerService1">
+        <PropertyRef Name="id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="autoservice_kpEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Role" EntityType="Self.Role" />
+    <EntitySet Name="Service" EntityType="Self.Service" />
+    <EntitySet Name="User" EntityType="Self.User" />
+    <EntitySet Name="USerService" EntityType="Self.USerService" />
+    <AssociationSet Name="FK_Cписок_сотрудников_с_ролями_Role" Association="Self.FK_Cписок_сотрудников_с_ролями_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_USerService_Service" Association="Self.FK_USerService_Service">
+      <End Role="Service" EntitySet="Service" />
+      <End Role="USerService" EntitySet="USerService" />
+    </AssociationSet>
+    <AssociationSet Name="FK_USerService_USerService" Association="Self.FK_USerService_USerService">
+      <End Role="USerService" EntitySet="USerService" />
+      <End Role="USerService1" EntitySet="USerService" />
+    </AssociationSet>
+    <AssociationSet Name="FK_USerService_USerService1" Association="autoservice_kpModel.FK_USerService_USerService1">
+      <End Role="User" EntitySet="User" />
+      <End Role="USerService" EntitySet="USerService" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK_USerService_USerService1">
+    <End Type="autoservice_kpModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="autoservice_kpModel.USerService" Role="USerService" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="USerService">
+        <PropertyRef Name="Сотрудники" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
